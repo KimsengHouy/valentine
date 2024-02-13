@@ -341,20 +341,24 @@
       }
     }
 
-    function generateEmojiHearts(count) {
-      const emojiContainer = document.querySelector('.emoji');
-      emojiContainer.innerHTML = '';
+  function generateEmojiHearts(count) {
+  const emojiContainer = document.querySelector('.emoji');
+  emojiContainer.innerHTML = '';
 
-      for (let i = 0; i < count; i++) {
-        const emojiHeart = document.createElement('div');
-        emojiHeart.innerHTML = '❤️';
-        emojiHeart.style.left = `${Math.random() * 100}vw`;
-        emojiHeart.style.top = `${Math.random() * 100}vh`;
-        emojiHeart.style.animationDuration = `${Math.random() * 4 + 2}s`; // Adjust the duration of the falling animation
-        emojiHeart.style.animationDelay = `-${Math.random()}s`; // Negative delay for staggered start
-        emojiContainer.appendChild(emojiHeart);
-      }
-    }
+  for (let i = 0; i < count; i++) {
+    const emojiHeart = document.createElement('div');
+    
+    // Randomly choose between heart and rose emojis
+    const emojiType = Math.random() < 0.5 ? '❤️' : '🌹';
+    
+    emojiHeart.innerHTML = emojiType;
+    emojiHeart.style.left = `${Math.random() * 100}vw`;
+    emojiHeart.style.top = `${Math.random() * 100}vh`;
+    emojiHeart.style.animationDuration = `${Math.random() * 4 + 2}s`; // Adjust the duration of the falling animation
+    emojiHeart.style.animationDelay = `-${Math.random()}s`; // Negative delay for staggered start
+    emojiContainer.appendChild(emojiHeart);
+  }
+}
 
     function clearEmojiHearts() {
       const emojiContainer = document.querySelector('.emoji');
