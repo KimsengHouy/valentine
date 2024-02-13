@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Valentine's Day</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: visible;
+      background: linear-gradient(-45deg, #ff99b5, #ffccd9, #ff99b5, #ffccd9);
+      background-size: 400% 400%;
+      animation: gradientAnimation 10s infinite alternate-reverse, floatAnimation 5s infinite ease-in-out;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 0%;
+      }
+      100% {
+        background-position: 100% 100%;
+      }
+    }
+
+    @keyframes floatAnimation {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 24px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .loading .heart-icons {
+      display: flex;
+    }
+
+    .loading .heart-icon {
+      color: #e6005c;
+      margin: 5px;
+      animation: floatHorizontal 2s linear infinite;
+    }
+
+    @keyframes floatHorizontal {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(10px);
+      }
+    }
+
+    #postcard {
+      display: none;
+      perspective: 1000px;
+      width: 300px;
+      height: 400px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    #postcard-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      background: linear-gradient(45deg, #ff99b5, #ffccd9);
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.5s ease-in-out;
+    }
+
+    #postcard.open #postcard-container {
+      transform: rotateY(180deg);
+    }
+
+    .heart {
+      fill: red;
+      position: relative;
+      top: 5px;
+      width: 50px;
+      animation: pulse 1s ease infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      border-radius: 20px;
+      backface-visibility: hidden;
+    }
+
+    .front {
+      background-color: #ffccd9;
+      color: #e6005c;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      background-color: #e6005c;
+      color: #fff;
+    }
+
+    .message {
+      font-size: 1em;
+      line-height: 1.6;
+      margin-top: 20px;
+      overflow-y: scroll;
+      max-height: 80%;
+      scrollbar-width: thin;
+      scrollbar-color: #e6005c #ffccd9;
+    }
+
+    .emoji {
+      font-size: 25px;
+    }
+
+    .emoji div {
+      position: fixed;
+      animation: heartsAnimation 4s linear infinite;
+    }
+
+    @keyframes heartsAnimation {
+      0% {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    /* Styling for the form */
+    #form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    #form {
+      max-width: 300px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #form label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #form input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    #form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #e6005c;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="loading">
+    Loading My Love For You
+    <div class="heart-icons">
+      <div class="heart-icon">❤️</div>
+      <div class="heart-icon">❤️</div>
+      <div class="heart-icon">❤️</div>
+    </div>
+  </div>
+
+  <div id="postcard" class="closed" onclick="toggleCard()">
+    <div id="postcard-container">
+      <div class="side front">
+        <h2>Happy Valentine's Day Babe!</h2>
+        <p class="message">You hold the key to my heart.
+          <svg class="heart" viewBox="0 0 32 29.6">
+            <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+              c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" />
+          </svg>
+        </p>
+      </div>
+      <div class="side back">
+        <p class="message">My Dearest Esther,
+
+          On this special day, as the world celebrates love, I find myself overwhelmed with gratitude for having you by my
+          side. Happy Valentine's Day, my love! 🌹 Your presence in my life is like a gentle breeze, soothing and
+          comforting. You bring a unique kind of magic into every moment, turning the ordinary into the extraordinary.
+
+          From the sparkle in your eyes to the warmth of your touch, you make my heart skip a beat. You are the melody to
+          my soul, the sunshine in my darkest days, and the anchor that keeps me grounded. Our journey together is a
+          tapestry woven with threads of laughter, shared dreams, and unwavering support.
+
+          Thank you for being my confidante, and my greatest source of joy. With you, every day feels
+          like Valentine's Day, as our love continues to blossom and grow. Here's to the countless more adventures, shared
+          smiles, and quiet moments that lie ahead ❤️.
+
+          May this day be a reminder of the beautiful bond we've created and the love that continues to flourish between
+          us. Cheers to us, to our love story, and to the incredible journey we're on together.
+
+          Happy Valentine's Day, my babe. Here's to us and the extraordinary love we share mauh. 🥂💑😘 ❤️</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="emoji">
+    <!-- Emoji will be dynamically added here using JavaScript -->
+  </div>
+
+  <div id="form-container">
+    <div id="form">
+      <label for="dayInput">Enter the Our day to see the message (Day/Month/Year):</label>
+      <input type="text" id="dayInput" placeholder="Enter day (DD/MM/YYYY)">
+      <button onclick="checkDay()">Muah 😘</button>
+      <div id="errorMessage" style="color: #e6005c; font-weight: bold; margin-top: 10px;"></div>
+    </div>
+  </div>
+  
+    <audio id="backgroundMusic" autoplay loop>
+    <source src="assets/be_more.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Simulate loading delay
+    setTimeout(() => {
+      document.querySelector('.loading').style.display = 'none';
+      document.getElementById('postcard').style.display = 'block';
+    }, 3000);
+
+    let isCardOpen = false;
+
+    function toggleCard() {
+      const postcard = document.getElementById('postcard');
+      isCardOpen = !isCardOpen;
+      postcard.classList.toggle('open', isCardOpen);
+      const messageContainer = document.querySelector('.message');
+      messageContainer.style.overflowY = isCardOpen ? 'scroll' : 'hidden';
+
+      // Play music when the card is opened
+      const backgroundMusic = document.getElementById('backgroundMusic');
+      if (isCardOpen) {
+        backgroundMusic.play();
+      } else {
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0; // Reset audio to the beginning
+        clearEmojiHearts();
+      }
+
+      if (isCardOpen) {
+        showForm();
+      } else {
+        clearEmojiHearts();
+      }
+    }
+
+    function showForm() {
+      const formContainer = document.getElementById('form-container');
+      formContainer.style.opacity = 1;
+      formContainer.style.pointerEvents = 'auto';
+    }
+
+    function hideForm() {
+      const formContainer = document.getElementById('form-container');
+      formContainer.style.opacity = 0;
+      formContainer.style.pointerEvents = 'none';
+      document.getElementById('errorMessage').innerHTML = ''; // Clear error message on hide
+    }
+
+    function checkDay() {
+      const enteredDay = document.getElementById('dayInput').value;
+      const correctDay = '01/05/2023'; // May 1, 2023
+
+      if (enteredDay === correctDay) {
+        hideForm();
+        const emojiContainer = document.querySelector('.emoji');
+
+        if (isCardOpen) {
+          generateEmojiHearts(51); // Adjust the number of emoji hearts as needed
+        }
+      } else {
+        // Display a more professional-looking message
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.innerHTML = 'Sorry, the entered day is incorrect. Please try again.';
+      }
+    }
+
+    function generateEmojiHearts(count) {
+      const emojiContainer = document.querySelector('.emoji');
+      emojiContainer.innerHTML = '';
+
+      for (let i = 0; i < count; i++) {
+        const emojiHeart = document.createElement('div');
+        emojiHeart.innerHTML = '❤️';
+        emojiHeart.style.left = `${Math.random() * 100}vw`;
+        emojiHeart.style.top = `${Math.random() * 100}vh`;
+        emojiHeart.style.animationDuration = `${Math.random() * 4 + 2}s`; // Adjust the duration of the falling animation
+        emojiHeart.style.animationDelay = `-${Math.random()}s`; // Negative delay for staggered start
+        emojiContainer.appendChild(emojiHeart);
+      }
+    }
+
+    function clearEmojiHearts() {
+      const emojiContainer = document.querySelector('.emoji');
+      emojiContainer.innerHTML = '';
+    }
+  </script>
+
+</body>
+
+</html>
